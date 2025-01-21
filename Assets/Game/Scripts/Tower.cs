@@ -50,7 +50,7 @@ public class Tower : MonoBehaviour
 
         foreach (Transform enemy in enemyCreator.EnemyList())
         {
-            float distance = Vector3.Distance(enemy.position,transform.position);
+            float distance = Vector3.Distance(enemy.position, transform.position);
 
             if (distance < closestDistance && distance <= attackRange)
             {
@@ -59,7 +59,7 @@ public class Tower : MonoBehaviour
             }
         }
 
-        if(closestEnemy != null)
+        if (closestEnemy != null)
             enemyCreator.EnemyList().Remove(closestEnemy);
 
         return closestEnemy;
@@ -88,7 +88,6 @@ public class Tower : MonoBehaviour
             lastTimeAttacked = Time.time;
             return true;
         }
-
 
         return false;
     }
