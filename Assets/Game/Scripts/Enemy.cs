@@ -15,6 +15,11 @@ public class Enemy : MonoBehaviour
         ownAgent.avoidancePriority = Mathf.RoundToInt(ownAgent.speed * 10f);//setting priority based on speed
     }
 
+    private void Start()
+    {
+        waypointsArray = FindAnyObjectByType<WayPointsManager>().GetLevelWayPointsArray();
+    }
+
     private void Update()
     {
         FaceTarget(ownAgent.steeringTarget);
