@@ -12,6 +12,7 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         ownAgent.updateRotation = false;
+        ownAgent.avoidancePriority = Mathf.RoundToInt(ownAgent.speed * 10f);//setting priority based on speed
     }
 
     private void Update()
@@ -39,13 +40,11 @@ public class Enemy : MonoBehaviour
     {
         if (wayPointIndex >= waypointsArray.Length)
         {
-            return transform.position;
+            wayPointIndex = 0;
+            //return transform.position;
         }
-        else
-        {
-            Vector3 targetPosition = waypointsArray[wayPointIndex].position;
-            wayPointIndex++;
-            return targetPosition;
-        }
+        Vector3 targetPosition = waypointsArray[wayPointIndex].position;
+        wayPointIndex++;
+        return targetPosition;
     }
 }
