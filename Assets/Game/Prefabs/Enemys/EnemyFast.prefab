@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2260076011881606315}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: fast_enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ GameObject:
   - component: {fileID: 212182708676314893}
   - component: {fileID: 7674625519742931782}
   - component: {fileID: 2020176643456024279}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: fast_enemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 2966378361198546522}
   - component: {fileID: 1836750134378462235}
   - component: {fileID: 8690351262258774778}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EnemyFast
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -253,7 +253,7 @@ GameObject:
   - component: {fileID: 5037929311797156089}
   - component: {fileID: 1549792617408614714}
   - component: {fileID: 3730332658819690008}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: fast_enemy_wheels
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 8440275194399863783}
   - component: {fileID: 7740542136351905755}
   - component: {fileID: 3235152431621946894}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: fast_enemy_emission
   m_TagString: Untagged
   m_Icon: {fileID: 0}
