@@ -16,6 +16,8 @@ public abstract class Tower : MonoBehaviour
     [SerializeField] protected float attackRange = 1.5f;
 
     [SerializeField] protected LayerMask enemyLayer;
+
+    private bool canRotate;
     protected virtual void Update()
     {
         if (currentTarget == null)
@@ -76,6 +78,8 @@ public abstract class Tower : MonoBehaviour
 
     protected virtual void RotateTowardsEnemy()
     {
+        if (canRotate == false) return;
+
         if (currentTarget == null)
         {
             return;
@@ -92,6 +96,23 @@ public abstract class Tower : MonoBehaviour
 
         // Apply the interpolated rotation to the tower head
         towerHeadTransform.rotation = Quaternion.Euler(rotation);
+    }
+
+    protected Vector3 DirectionToEnemy(Transform startPoint)
+    {
+        if (currentTarget != null)
+        {
+            return (currentTarget.position - startPoint.position).normalized;
+        }
+        else
+        {
+            return Vector3.zero;
+        }
+    }
+
+    public void SetCanRotate(bool canRotate)
+    {
+        this.canRotate = canRotate;
     }
 
     private void OnDrawGizmos()
