@@ -615,7 +615,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTarget: {fileID: 0}
-  attaCooldown: 1.2
+  attaCooldown: 2
   towerHeadTransform: {fileID: 8084709029176328254}
   towerBuilding: {fileID: 6557545629928800485}
   rotationSpeed: 10
@@ -640,6 +640,10 @@ MonoBehaviour:
   myTower: {fileID: 191010988}
   attackVisuals: {fileID: 658944133}
   attackVisualsDuration: 0.1
+  meshRenderer: {fileID: 2575467011966419286}
+  maxIntesity: 4
+  startColor: {r: 0, g: 0, b: 0, a: 1}
+  endColor: {r: 0.047058824, g: 0.7607843, b: 0.7921569, a: 1}
 --- !u!1 &222598879
 GameObject:
   m_ObjectHideFlags: 0
@@ -3062,7 +3066,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 0
+  m_RenderPostProcessing: 1
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
