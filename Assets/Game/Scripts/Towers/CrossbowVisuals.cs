@@ -14,6 +14,29 @@ public class CrossbowVisuals : MonoBehaviour
     [SerializeField] private Color startColor;
     [SerializeField] private Color endColor;
 
+    [Header("Font Strings")]
+    [SerializeField] private LineRenderer frontStringLeft;
+    [SerializeField] private LineRenderer frontStringRight;
+
+    [Space]
+
+    [SerializeField] private Transform frontStartPointLeft;
+    [SerializeField] private Transform frontStartPointRight;
+    [SerializeField] private Transform frontEndPointLeft;
+    [SerializeField] private Transform frontEndPointRight;
+
+
+    [Header("Back Strings")]
+    [SerializeField] private LineRenderer backStringLeft;
+    [SerializeField] private LineRenderer backStringRight;
+
+    [Space]
+
+    [SerializeField] private Transform backStartPointLeft;
+    [SerializeField] private Transform backStartPointRight;
+    [SerializeField] private Transform backEndPointLeft;
+    [SerializeField] private Transform backEndPointRight;
+
     private Material material;
     private float currentIntesity;
 
@@ -66,6 +89,12 @@ public class CrossbowVisuals : MonoBehaviour
     {
         // Update the emission color of the material each frame
         UpdateEmissionColor();
+
+        // Update the front strings visuals each frame
+        UpdateStingsVisuals(frontStringLeft, frontStartPointLeft, frontEndPointLeft);
+        UpdateStingsVisuals(frontStringRight, frontStartPointRight, frontEndPointRight);
+        UpdateStingsVisuals(backStringLeft, backStartPointLeft, backEndPointLeft);
+        UpdateStingsVisuals(backStringRight, backStartPointRight, backEndPointRight);
     }
 
     /// <summary>
@@ -118,5 +147,12 @@ public class CrossbowVisuals : MonoBehaviour
     public void PlayReloadFx(float duration)
     {
         StartCoroutine(COR_ChangeEmission(duration / 2));
+    }
+
+
+    private void UpdateStingsVisuals(LineRenderer lineRenderer, Transform startPoint, Transform endPoints)
+    {
+        lineRenderer.SetPosition(0, startPoint.position);
+        lineRenderer.SetPosition(1, endPoints.position);
     }
 }
