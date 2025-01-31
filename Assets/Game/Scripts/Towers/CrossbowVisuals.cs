@@ -37,6 +37,16 @@ public class CrossbowVisuals : MonoBehaviour
     [SerializeField] private Transform backEndPointLeft;
     [SerializeField] private Transform backEndPointRight;
 
+    [Space]
+
+    [Header("Rotor Visuals")]
+    [SerializeField] private Transform rotor;
+    [SerializeField] private Transform rotorLoaded;
+    [SerializeField] private Transform rotorUnloaded;
+
+
+    [SerializeField] private LineRenderer[] lineRenderersArray;
+
     private Material material;
     private float currentIntesity;
 
@@ -48,6 +58,16 @@ public class CrossbowVisuals : MonoBehaviour
         meshRenderer.material = material;
         // Start the emission change coroutine with a duration of 1 second
         StartCoroutine(COR_ChangeEmission(1));
+        // Update the materials on the line renderers
+        updateMaterialsOnLineRenderers();
+    }
+
+    private void updateMaterialsOnLineRenderers()
+    {
+        foreach (var line in lineRenderersArray)
+        {
+            line.material = this.material;
+        }
     }
 
     /// <summary>
@@ -91,6 +111,11 @@ public class CrossbowVisuals : MonoBehaviour
         UpdateEmissionColor();
 
         // Update the front strings visuals each frame
+        UpdateStringVisuals();
+    }
+
+    private void UpdateStringVisuals()
+    {
         UpdateStingsVisuals(frontStringLeft, frontStartPointLeft, frontEndPointLeft);
         UpdateStingsVisuals(frontStringRight, frontStartPointRight, frontEndPointRight);
         UpdateStingsVisuals(backStringLeft, backStartPointLeft, backEndPointLeft);
@@ -109,6 +134,21 @@ public class CrossbowVisuals : MonoBehaviour
         // Set the emission color of the material
         material.SetColor("_EmissionColor", emissionCOlor);
     }
+
+    private IEnumerator COR_UpdateRotorPosition(float duration)
+    {
+        float startTime = Time.time;
+
+        while (Time.time - startTime < duration)
+        {
+            float delta = (Time.time - startTime) / duration;
+            rotor.position = Vector3.Lerp(rotorLoaded.position, rotorUnloaded.position, delta);
+            yield return null;
+        }
+
+        rotor.position = rotorLoaded.position;
+    }
+
 
     /// <summary>
     /// Coroutine to gradually change the emission intensity of the material over a specified duration.
@@ -146,7 +186,9 @@ public class CrossbowVisuals : MonoBehaviour
     /// <param name="duration">The duration of the reload effect.</param>
     public void PlayReloadFx(float duration)
     {
-        StartCoroutine(COR_ChangeEmission(duration / 2));
+        float finalDuration = duration / 2;
+        StartCoroutine(COR_ChangeEmission(finalDuration));
+        StartCoroutine(COR_UpdateRotorPosition(finalDuration));
     }
 
 
