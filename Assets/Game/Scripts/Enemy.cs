@@ -11,6 +11,10 @@ public class Enemy : MonoBehaviour, IDamagable
     [SerializeField] private float turiningSpeed = 10f;
     [SerializeField] private Transform[] waypointsArray;
 
+    [Space]
+
+    private float totalDistance;
+
     private int wayPointIndex;
 
     private void Awake()
@@ -22,7 +26,9 @@ public class Enemy : MonoBehaviour, IDamagable
     private void Start()
     {
         waypointsArray = FindAnyObjectByType<WayPointsManager>().GetLevelWayPointsArray();
+        CalculateTotalDistance();
     }
+
 
     private void Update()
     {
@@ -47,15 +53,41 @@ public class Enemy : MonoBehaviour, IDamagable
 
     private Vector3 GetNextWayPoint()
     {
+        // If the current waypoint index is greater than or equal to the length of the waypoints array,
+        // reset the waypoint index to 0 to start from the beginning.
         if (wayPointIndex >= waypointsArray.Length)
         {
             wayPointIndex = 0;
-            //return transform.position;
         }
+
+        // Get the position of the next waypoint.
         Vector3 targetPosition = waypointsArray[wayPointIndex].position;
+
+        // If the waypoint index is greater than 0, calculate the distance between the current waypoint
+        // and the previous waypoint, and subtract it from the total distance.
+        if (wayPointIndex > 0)
+        {
+            float distance = Vector3.Distance(waypointsArray[wayPointIndex].position, waypointsArray[wayPointIndex - 1].position);
+            totalDistance -= distance;
+        }
+
+        // Increment the waypoint index to move to the next waypoint.
         wayPointIndex++;
+
+        // Return the position of the next waypoint.
         return targetPosition;
     }
+    private void CalculateTotalDistance()
+    {
+        for (int i = 0; i < waypointsArray.Length - 1; i++)
+        {
+            float distance = Vector3.Distance(waypointsArray[i].position, waypointsArray[i + 1].position);
+
+            totalDistance += distance;
+        }
+    }
+
+    public float DistanceToFinishline() => totalDistance + ownAgent.remainingDistance;
 
     public void TakeDamage(int damage)
     {
