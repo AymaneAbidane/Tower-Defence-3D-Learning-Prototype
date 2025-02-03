@@ -3817,6 +3817,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2927447418442013462, guid: 0aad13dba8b6e1d4c9be3accf37df30d, type: 3}
+      propertyPath: damage
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3180361827426616243, guid: 0aad13dba8b6e1d4c9be3accf37df30d, type: 3}
       propertyPath: m_Name
       value: TowerCrossBow

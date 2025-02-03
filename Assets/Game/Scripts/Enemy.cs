@@ -1,11 +1,15 @@
 using UnityEngine;
 using UnityEngine.AI;
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour, IDamagable
 {
-    [SerializeField] private float turiningSpeed = 10f;
 
-    [SerializeField] private Transform[] waypointsArray;
     [SerializeField] private NavMeshAgent ownAgent;
+
+    [SerializeField] private int health = 4;
+
+    [Header("Movment")]
+    [SerializeField] private float turiningSpeed = 10f;
+    [SerializeField] private Transform[] waypointsArray;
 
     private int wayPointIndex;
 
@@ -51,5 +55,14 @@ public class Enemy : MonoBehaviour
         Vector3 targetPosition = waypointsArray[wayPointIndex].position;
         wayPointIndex++;
         return targetPosition;
+    }
+
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        if (health <= 0)
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 public class CrossBowTower : Tower
 {
     [Header("Cross Bow Details")]
+    [SerializeField] private int damage = 1;
     [SerializeField] private Transform gunPoint;
     [SerializeField] private CrossbowVisuals crossbowVisuals;
 
@@ -12,10 +13,13 @@ public class CrossBowTower : Tower
 
         if (Physics.Raycast(gunPoint.position, directionToEnemy, out RaycastHit hitInfo, Mathf.Infinity))
         {
-            Debug.DrawLine(gunPoint.position, hitInfo.point);
-            Debug.Log("Hit Enemy: " + hitInfo.collider.gameObject.name);
             crossbowVisuals.PlayAttackLaserFX(gunPoint.position, hitInfo.point);
             crossbowVisuals.PlayReloadFx(attaCooldown);
+
+            if (hitInfo.transform.TryGetComponent<IDamagable>(out IDamagable damagable))
+            {
+                damagable.TakeDamage(damage);
+            }
         }
     }
 }
