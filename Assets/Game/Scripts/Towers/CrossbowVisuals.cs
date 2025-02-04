@@ -47,6 +47,8 @@ public class CrossbowVisuals : MonoBehaviour
 
     [SerializeField] private LineRenderer[] lineRenderersArray;
 
+    private Enemy myEnemy;
+
     private Material material;
     private float currentIntesity;
 
@@ -77,7 +79,7 @@ public class CrossbowVisuals : MonoBehaviour
     /// <param name="endPoint">The ending point of the laser.</param>
     public void PlayAttackLaserFX(Vector3 startPoint, Vector3 endPoint)
     {
-        StartCoroutine(COR_ShootLaser(startPoint, endPoint));
+        StartCoroutine(COR_PlayAttackLaserVFX(startPoint, endPoint));
     }
 
     /// <summary>
@@ -86,10 +88,13 @@ public class CrossbowVisuals : MonoBehaviour
     /// <param name="startPoint">The starting point of the laser.</param>
     /// <param name="endPoint">The ending point of the laser.</param>
     /// <returns>An IEnumerator to be used with StartCoroutine.</returns>
-    private IEnumerator COR_ShootLaser(Vector3 startPoint, Vector3 endPoint)
+    private IEnumerator COR_PlayAttackLaserVFX(Vector3 startPoint, Vector3 endPoint)
     {
         // Disable tower rotation during the laser effect
-        myTower.SetCanRotate(false);
+        //myTower.SetCanRotate(false);
+        // Set the current enemy target to the tower's current target
+        myEnemy = myTower.currentTarget;
+
         // Enable the line renderer for the laser effect
         attackVisuals.enabled = true;
 
@@ -102,16 +107,21 @@ public class CrossbowVisuals : MonoBehaviour
         // Disable the line renderer after the effect
         attackVisuals.enabled = false;
         // Re-enable tower rotation
-        myTower.SetCanRotate(true);
+        //myTower.SetCanRotate(true);
     }
 
     private void Update()
     {
         // Update the emission color of the material each frame
         UpdateEmissionColor();
-
         // Update the front strings visuals each frame
         UpdateStringVisuals();
+
+        if (attackVisuals.enabled && myEnemy != null)
+        {
+            // Update the end position of the attack visuals to the current enemy position
+            attackVisuals.SetPosition(1, myEnemy.GetCenterPointPosition());
+        }
     }
 
     private void UpdateStringVisuals()

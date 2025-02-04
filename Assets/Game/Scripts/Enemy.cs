@@ -6,6 +6,7 @@ public class Enemy : MonoBehaviour, IDamagable
     [SerializeField] private NavMeshAgent ownAgent;
 
     [SerializeField] private int health = 4;
+    [SerializeField] private Transform centerPoint;
 
     [Header("Movment")]
     [SerializeField] private float turiningSpeed = 10f;
@@ -16,6 +17,7 @@ public class Enemy : MonoBehaviour, IDamagable
     private float totalDistance;
 
     private int wayPointIndex;
+
 
     private void Awake()
     {
@@ -87,7 +89,6 @@ public class Enemy : MonoBehaviour, IDamagable
         }
     }
 
-    public float DistanceToFinishline() => totalDistance + ownAgent.remainingDistance;
 
     public void TakeDamage(int damage)
     {
@@ -97,4 +98,6 @@ public class Enemy : MonoBehaviour, IDamagable
             Destroy(gameObject);
         }
     }
+    public float DistanceToFinishline() => totalDistance + ownAgent.remainingDistance;
+    public Vector3 GetCenterPointPosition() => centerPoint.position;
 }

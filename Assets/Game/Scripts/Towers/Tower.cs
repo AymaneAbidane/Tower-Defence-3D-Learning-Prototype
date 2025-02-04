@@ -3,7 +3,7 @@ using UnityEngine;
 
 public abstract class Tower : MonoBehaviour
 {
-    public Transform currentTarget;
+    public Enemy currentTarget;
 
     [SerializeField] protected float attaCooldown;
     protected float lastTimeAttacked;
@@ -18,6 +18,12 @@ public abstract class Tower : MonoBehaviour
     [SerializeField] protected LayerMask enemyLayer;
 
     private bool canRotate;
+
+    private void Start()
+    {
+        SetCanRotate(true);
+    }
+
     protected virtual void Update()
     {
         if (currentTarget == null)
@@ -31,7 +37,7 @@ public abstract class Tower : MonoBehaviour
             AttackTarget();
         }
 
-        if (currentTarget != null && Vector3.Distance(currentTarget.position, towerBuilding.position) > attackRange)
+        if (currentTarget != null && Vector3.Distance(currentTarget.GetCenterPointPosition(), towerBuilding.position) > attackRange)
         {
             currentTarget = null;
         }
@@ -56,7 +62,7 @@ public abstract class Tower : MonoBehaviour
         return false;
     }
 
-    protected virtual Transform FindRandomEnemyWithingRange()
+    protected virtual Enemy FindRandomEnemyWithingRange()
     {
         // Create a list to store possible enemy targets within range
         List<Enemy> possibleTrgets = new();
@@ -78,7 +84,7 @@ public abstract class Tower : MonoBehaviour
         Enemy newTarget = GetMostAdvancedEnemy(possibleTrgets);
         if (newTarget != null)
         {
-            return newTarget.transform;
+            return newTarget;
         }
         return null;
     }
@@ -116,7 +122,7 @@ public abstract class Tower : MonoBehaviour
         }
 
         // Calculate the direction vector from the tower head to the enemy
-        Vector3 directionToEnemy = currentTarget.position - towerHeadTransform.position;
+        Vector3 directionToEnemy = DirectionToEnemy(towerHeadTransform);
 
         // Calculate the target rotation based on the direction vector
         Quaternion targetRotation = Quaternion.LookRotation(directionToEnemy);
@@ -132,7 +138,7 @@ public abstract class Tower : MonoBehaviour
     {
         if (currentTarget != null)
         {
-            return (currentTarget.position - startPoint.position).normalized;
+            return (currentTarget.GetCenterPointPosition() - startPoint.position).normalized;
         }
         else
         {
