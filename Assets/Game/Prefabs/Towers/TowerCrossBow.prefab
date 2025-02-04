@@ -584,6 +584,7 @@ MonoBehaviour:
   enemyLayer:
     serializedVersion: 2
     m_Bits: 128
+  damage: 10
   gunPoint: {fileID: 3545438455637693025}
   crossbowVisuals: {fileID: 8285648490480151028}
 --- !u!114 &8285648490480151028

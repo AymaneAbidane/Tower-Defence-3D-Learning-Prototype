@@ -58,22 +58,52 @@ public abstract class Tower : MonoBehaviour
 
     protected virtual Transform FindRandomEnemyWithingRange()
     {
-        List<Transform> possibleTrgets = new();
+        // Create a list to store possible enemy targets within range
+        List<Enemy> possibleTrgets = new();
+
+        // Get all colliders within the attack range that belong to the enemy layer
         Collider[] enemyColliders = Physics.OverlapSphere(towerBuilding.position, attackRange, enemyLayer);
 
-        foreach (var enemy in enemyColliders)
+        // Iterate through each collider to find enemies
+        foreach (var enemyTarget in enemyColliders)
         {
-            possibleTrgets.Add(enemy.transform);
+            // Try to get the Enemy component from the collider
+            if (enemyTarget.TryGetComponent<Enemy>(out Enemy enemy))
+            {
+                // Add the enemy to the list of possible targets
+                possibleTrgets.Add(enemy);
+            }
         }
 
-        if (possibleTrgets.Count == 0)
+        Enemy newTarget = GetMostAdvancedEnemy(possibleTrgets);
+        if (newTarget != null)
         {
-            return null;
+            return newTarget.transform;
         }
-        else
+        return null;
+    }
+
+    private Enemy GetMostAdvancedEnemy(List<Enemy> possibleTrgets)
+    {
+        // Initialize variables to find the most advanced enemy (closest to the finish line)
+        Enemy mostAdvancedEnemy = null;
+        float minRemainingDIstance = float.MaxValue;
+
+        // Iterate through the list of possible targets
+        foreach (Enemy enemy in possibleTrgets)
         {
-            return possibleTrgets[Random.Range(0, possibleTrgets.Count)];
+            // Calculate the remaining distance for the enemy to reach the finish line
+            float remainingDistance = enemy.DistanceToFinishline();
+
+            // If this enemy has a shorter remaining distance, update the most advanced enemy
+            if (remainingDistance < minRemainingDIstance)
+            {
+                minRemainingDIstance = remainingDistance;
+                mostAdvancedEnemy = enemy;
+            }
         }
+
+        return mostAdvancedEnemy;
     }
 
     protected virtual void RotateTowardsEnemy()
